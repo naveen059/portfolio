@@ -3,7 +3,7 @@ import { ArrowDown, Download, Github, Linkedin, Mail, MapPin, Phone } from "luci
 import gsap from "gsap";
 import Magnetic from "./Magnetic";
 import VectorDecoration from "./VectorDecoration";
-import { AnimatedHexagon, ConnectionLines, DNAHelix } from "./FloatingElements";
+import { AnimatedHexagon, ConnectionLines } from "./FloatingElements";
 
 const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -53,7 +53,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={heroRef} className="min-h-screen flex items-center relative overflow-hidden">
+    <section ref={heroRef} className="min-h-[92vh] md:min-h-screen flex items-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/[0.03]" />
 
       <div className="hero-decoration parallax-slow absolute top-16 right-8 hidden md:block text-primary/15">
@@ -68,30 +68,37 @@ const Hero = () => {
       <div className="hero-decoration parallax-fast absolute top-32 left-1/4 hidden lg:block text-primary/8">
         <VectorDecoration variant="dots" />
       </div>
-      <div className="hero-decoration parallax-slow absolute top-20 right-[5%] hidden xl:block text-primary/12">
-        <DNAHelix />
-      </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pt-24">
         <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
           <div className="md:col-span-7 order-2 md:order-1">
-            <div className="hero-line flex items-center gap-3 mb-6">
-              <div className="w-10 h-px bg-primary" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-primary">
-                Software Developer | Full-Stack | Backend
+            <div className="hero-line inline-flex items-center gap-3 mb-6 rounded-full border border-primary/20 bg-primary/5 px-4 py-2">
+              <div className="w-6 h-px bg-primary" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
+                Full-Stack + Backend Engineer
               </span>
             </div>
 
-            <h1 className="hero-line text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.9] mb-6">
+            <h1 className="hero-line text-4xl md:text-6xl lg:text-7xl font-bold tracking-[-0.03em] leading-[0.9] mb-5">
               Naveen K M
               <br />
-              <span className="text-gradient">Software Developer</span>
+              <span className="text-gradient">Building Reliable Digital Products</span>
             </h1>
 
-            <p className="hero-line text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-8">
+            <p className="hero-line text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-7">
               Full-stack and backend developer with 2+ years of experience building web applications,
               automation workflows, and production-ready software.
             </p>
+
+            <div className="hero-line flex flex-wrap gap-3 mb-8">
+              {["2+ Years Experience", "Production-Ready Delivery", "Automation Workflows"].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-xl border border-border/70 bg-background/65 px-3 py-2 text-[11px] font-mono uppercase tracking-[0.16em] text-muted-foreground"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
 
             <div className="hero-line flex flex-wrap gap-3 mb-10">
               {[
@@ -109,13 +116,13 @@ const Hero = () => {
               ))}
             </div>
 
-            <div className="hero-line flex flex-wrap items-center gap-4 mb-12">
+            <div className="hero-line flex flex-wrap items-center gap-4 mb-10">
               <Magnetic>
                 <a
                   href="#projects"
                   className="group flex items-center gap-3 bg-foreground text-background px-7 py-3.5 rounded-full font-medium text-sm hover:shadow-xl hover:shadow-foreground/10 active:scale-[0.97] transition-all duration-300"
                 >
-                  View Projects
+                  Explore Projects
                   <span className="group-hover:translate-x-1 transition-transform">-&gt;</span>
                 </a>
               </Magnetic>
@@ -160,7 +167,7 @@ const Hero = () => {
               <div className="absolute -inset-6 rounded-[2rem] border border-primary/8 hidden md:block" />
               <div className="absolute inset-6 -z-10 hidden md:block rounded-[2rem] border border-dashed border-primary/15" />
 
-              <div className="w-64 h-72 md:w-80 md:h-96 rounded-2xl overflow-hidden bg-transparent relative shadow-2xl">
+              <div className="w-64 h-72 md:w-80 md:h-[26rem] rounded-2xl overflow-hidden bg-transparent relative shadow-2xl border border-border/40">
                 {hasProfileImage ? (
                   <img
                     src="/profile.png"
