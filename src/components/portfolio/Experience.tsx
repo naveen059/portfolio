@@ -66,17 +66,17 @@ const Experience = () => {
 
   useEffect(() => {
     const rows = gsap.utils.toArray<HTMLElement>(".exp-row");
-    rows.forEach((row, i) => {
+    rows.forEach((row) => {
       gsap.fromTo(
         row,
-        { opacity: 0, x: i % 2 === 0 ? -30 : 30, filter: "blur(4px)" },
+        { opacity: 0, y: 44, filter: "blur(4px)" },
         {
           opacity: 1,
-          x: 0,
+          y: 0,
           filter: "blur(0px)",
-          duration: 0.9,
+          duration: 0.85,
           ease: "power3.out",
-          scrollTrigger: { trigger: row, start: "top 85%", once: true },
+          scrollTrigger: { trigger: row, start: "top 88%", once: true },
         }
       );
     });
@@ -88,25 +88,25 @@ const Experience = () => {
         { scaleY: 0 },
         {
           scaleY: 1,
-          duration: 1.5,
+          duration: 1.35,
           ease: "power2.out",
           scrollTrigger: { trigger: line, start: "top 85%", once: true },
         }
       );
     }
 
-    const icons = gsap.utils.toArray<HTMLElement>(".timeline-icon");
-    icons.forEach((icon, i) => {
+    const dots = gsap.utils.toArray<HTMLElement>(".timeline-icon");
+    dots.forEach((dot, i) => {
       gsap.fromTo(
-        icon,
-        { scale: 0, rotation: -90 },
+        dot,
+        { scale: 0.2, opacity: 0 },
         {
           scale: 1,
-          rotation: 0,
-          duration: 0.6,
-          delay: i * 0.15,
+          opacity: 1,
+          duration: 0.45,
+          delay: i * 0.1,
           ease: "back.out(1.7)",
-          scrollTrigger: { trigger: icon, start: "top 85%", once: true },
+          scrollTrigger: { trigger: dot, start: "top 90%", once: true },
         }
       );
     });
@@ -123,7 +123,7 @@ const Experience = () => {
         <VectorDecoration variant="wave" />
       </div>
 
-      <div className="max-w-5xl mx-auto relative">
+      <div className="max-w-6xl mx-auto relative">
         <GSAPReveal>
           <div className="flex items-center gap-4 mb-4">
             <span className="font-mono text-[11px] tracking-[0.3em] uppercase" style={{ color: "hsl(158 64% 48%)" }}>
@@ -136,67 +136,58 @@ const Experience = () => {
         <TextReveal
           text="Where I've worked and what I've delivered"
           tag="h2"
-          className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-20"
+          className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-16 md:mb-20"
         />
 
         <div className="relative">
           <div
-            className="timeline-line absolute left-5 md:left-[200px] top-0 bottom-0 w-px origin-top"
-            style={{ background: "linear-gradient(to bottom, hsl(158 64% 48% / 0.4), hsl(228 14% 18%))" }}
+            className="timeline-line absolute left-5 md:left-[258px] top-0 bottom-0 w-px origin-top"
+            style={{ background: "linear-gradient(to bottom, hsl(158 64% 48% / 0.42), hsl(228 14% 18%))" }}
           />
 
-          <div className="space-y-0">
-            {experiences.map((exp, i) => {
+          <div className="space-y-8 md:space-y-10">
+            {experiences.map((exp) => {
               const IconComp = exp.icon;
               return (
-                <div
-                  key={`${exp.role}-${exp.period}`}
-                  className="exp-row group py-10 md:py-12 border-b relative"
-                  style={{ borderColor: "hsl(228 14% 14%)" }}
-                >
-                  <div className="grid md:grid-cols-12 gap-6 md:gap-8 pl-14 md:pl-0">
-                    <div className="md:col-span-4 relative pr-4 md:pr-8">
-                      <div
-                        className="timeline-icon absolute -left-14 md:left-[168px] top-1 w-10 h-10 rounded-xl border-2 flex items-center justify-center transition-all duration-300 group-hover:shadow-lg"
-                        style={{
-                          borderColor: `hsl(${exp.accentColor})`,
-                          background: "hsl(228 22% 8%)",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.boxShadow = `0 0 20px 2px hsl(${exp.accentColor} / 0.2)`;
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.boxShadow = "none";
-                        }}
-                      >
-                        <IconComp size={16} style={{ color: `hsl(${exp.accentColor})` }} />
-                      </div>
-                      <span className="font-mono text-[11px] uppercase tracking-widest block mb-2" style={{ color: "hsl(228 10% 40%)" }}>
+                <article key={`${exp.role}-${exp.period}`} className="exp-row relative pl-14 md:pl-0">
+                  <div className="timeline-icon absolute left-0 md:left-[238px] top-6 w-10 h-10 rounded-xl border-2 flex items-center justify-center z-10"
+                    style={{
+                      borderColor: `hsl(${exp.accentColor})`,
+                      background: "hsl(228 22% 10%)",
+                    }}
+                  >
+                    <IconComp size={16} style={{ color: `hsl(${exp.accentColor})` }} />
+                  </div>
+
+                  <div className="md:grid md:grid-cols-[230px_1fr] md:gap-14">
+                    <div className="mb-4 md:mb-0 md:pt-1 md:pr-2">
+                      <p className="font-mono text-[11px] uppercase tracking-widest mb-2" style={{ color: "hsl(228 10% 43%)" }}>
                         {exp.period}
-                      </span>
-                      <span className="text-sm leading-6 block max-w-[150px] md:max-w-[165px]" style={{ color: "hsl(228 10% 35%)" }}>
+                      </p>
+                      <p className="text-sm leading-6 max-w-[220px]" style={{ color: "hsl(228 10% 36%)" }}>
                         {exp.company}
-                      </span>
+                      </p>
                     </div>
 
-                    <div className="md:col-span-8 md:pl-10">
-                      <h3
-                        className="text-xl md:text-2xl font-bold tracking-tight mb-3 transition-colors duration-300"
-                        style={{ color: "hsl(48 20% 92%)" }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = `hsl(${exp.accentColor})`)}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = "hsl(48 20% 92%)")}
-                      >
+                    <div className="glass-card rounded-2xl md:rounded-3xl p-5 md:p-7 border border-white/10">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 mb-3">
+                        <span className="w-1.5 h-1.5 rounded-full" style={{ background: `hsl(${exp.accentColor})` }} />
+                        <span className="font-mono text-[9px] uppercase tracking-widest text-white/65">Role Snapshot</span>
+                      </div>
+
+                      <h3 className="text-xl md:text-2xl font-bold tracking-tight mb-3 text-white">
                         {exp.role}
                       </h3>
-                      <p className="text-sm leading-relaxed mb-5 max-w-lg" style={{ color: "hsl(228 10% 42%)" }}>
+                      <p className="text-sm leading-relaxed mb-5 max-w-2xl" style={{ color: "hsl(228 10% 62%)" }}>
                         {exp.description}
                       </p>
+
                       <div className="flex flex-wrap gap-2">
                         {exp.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="font-mono text-[10px] uppercase tracking-wider px-3 py-1 rounded-full border transition-colors duration-300 hover:border-primary/30 hover:text-primary"
-                            style={{ borderColor: "hsl(228 14% 16%)", color: "hsl(228 10% 42%)" }}
+                            className="font-mono text-[10px] uppercase tracking-wider px-3 py-1 rounded-full border transition-colors duration-300"
+                            style={{ borderColor: "hsl(228 14% 22%)", color: "hsl(228 10% 64%)" }}
                           >
                             {tag}
                           </span>
@@ -204,7 +195,7 @@ const Experience = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>

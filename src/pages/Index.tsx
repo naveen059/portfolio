@@ -5,23 +5,27 @@ import Skills from "@/components/portfolio/Skills";
 import Experience from "@/components/portfolio/Experience";
 import Contact from "@/components/portfolio/Contact";
 import Footer from "@/components/portfolio/Footer";
+import DecorativeArtwork from "@/components/portfolio/DecorativeArtwork";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative isolate">
+      <DecorativeArtwork />
       <div className="noise" />
-      <Navbar />
-      <Hero />
-      <div className="section-divider" />
-      <Projects />
-      <div className="section-divider" />
-      <Skills />
-      <div className="section-divider" />
-      <Experience />
-      <div className="section-divider" />
-      <Contact />
-      <div className="section-divider" />
-      <Footer />
+      <div className="relative z-10">
+        <Navbar />
+        <Hero />
+        <div className="section-divider" />
+        <Projects />
+        <div className="section-divider" />
+        <Skills />
+        <div className="section-divider" />
+        <Experience />
+        <div className="section-divider" />
+        <Contact />
+        <div className="section-divider" />
+        <Footer />
+      </div>
     </div>
   );
 };

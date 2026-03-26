@@ -5,7 +5,7 @@ import { getTechLogo } from "./TechIcons";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Code2, Globe, Server, Cloud, GitBranch, Database } from "lucide-react";
+import { Code2, Globe, Server, Cloud, GitBranch, Database, Zap, Gauge, Rocket, Trophy } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,10 +49,10 @@ const skillCategories = [
 ];
 
 const stats = [
-  { value: "2+", label: "Years Experience", icon: "⚡" },
-  { value: "60%", label: "Manual Effort Cut", icon: "🚀" },
-  { value: "40%", label: "Faster Delivery", icon: "🎓" },
-  { value: "85%+", label: "Completion Rate", icon: "✦" },
+  { value: "2+", label: "Years Experience", icon: Zap },
+  { value: "60%", label: "Manual Effort Cut", icon: Rocket },
+  { value: "40%", label: "Faster Delivery", icon: Gauge },
+  { value: "85%+", label: "Completion Rate", icon: Trophy },
 ];
 
 const Skills = () => {
@@ -103,8 +103,8 @@ const Skills = () => {
     if (tiles.length > 0) {
       gsap.fromTo(
         tiles,
-        { opacity: 0, scale: 0.8, y: 20 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "back.out(1.7)" }
+        { opacity: 0, scale: 0.82, y: 20 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.52, stagger: 0.05, ease: "back.out(1.7)" }
       );
     }
   }, [activeCategory]);
@@ -120,6 +120,8 @@ const Skills = () => {
       <div className="absolute top-20 right-20 hidden lg:block">
         <VectorDecoration variant="dots" />
       </div>
+
+      <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-[radial-gradient(circle,hsl(200_85%_55%/0.12),transparent_62%)] blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto mb-16 relative">
         <GSAPReveal>
@@ -184,11 +186,11 @@ const Skills = () => {
         <div
           className="rounded-3xl p-8 md:p-10 relative overflow-hidden"
           style={{
-            background: `linear-gradient(145deg, hsl(${activeCat.accent} / 0.06), hsl(var(--background) / 0.8))`,
+            background: `linear-gradient(145deg, hsl(${activeCat.accent} / 0.08), hsl(var(--background) / 0.78))`,
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
-            border: `1px solid hsl(${activeCat.accent} / 0.15)`,
-            boxShadow: `0 8px 40px hsl(${activeCat.accent} / 0.08), inset 0 1px 0 hsl(${activeCat.accent} / 0.08)`,
+            border: `1px solid hsl(${activeCat.accent} / 0.18)`,
+            boxShadow: `0 8px 40px hsl(${activeCat.accent} / 0.1), inset 0 1px 0 hsl(${activeCat.accent} / 0.1)`,
           }}
         >
           <div
@@ -196,7 +198,7 @@ const Skills = () => {
             style={{ background: `hsl(${activeCat.accent})` }}
           />
           <div
-            className="absolute -bottom-10 -left-10 w-40 h-40 rounded-full opacity-10 blur-3xl pointer-events-none"
+            className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full opacity-10 blur-3xl pointer-events-none"
             style={{ background: `hsl(${activeCat.accent})` }}
           />
 
@@ -204,7 +206,7 @@ const Skills = () => {
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{
-                background: `hsl(${activeCat.accent} / 0.15)`,
+                background: `hsl(${activeCat.accent} / 0.16)`,
                 border: `1px solid hsl(${activeCat.accent} / 0.25)`,
               }}
             >
@@ -227,7 +229,7 @@ const Skills = () => {
                   key={skill}
                   className="skill-tile-active group relative flex items-center gap-3 p-4 rounded-2xl cursor-default transition-all duration-400"
                   style={{
-                    background: isHovered ? `hsl(${activeCat.accent} / 0.12)` : "hsl(var(--background) / 0.6)",
+                    background: isHovered ? `hsl(${activeCat.accent} / 0.12)` : "hsl(var(--background) / 0.58)",
                     backdropFilter: "blur(12px)",
                     WebkitBackdropFilter: "blur(12px)",
                     border: isHovered
@@ -244,8 +246,8 @@ const Skills = () => {
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-400"
                     style={{
-                      background: isHovered ? `hsl(${activeCat.accent} / 0.15)` : "hsl(var(--muted) / 0.4)",
-                      border: `1px solid ${isHovered ? `hsl(${activeCat.accent} / 0.2)` : "hsl(var(--border) / 0.3)"}`,
+                      background: isHovered ? `hsl(${activeCat.accent} / 0.16)` : "hsl(var(--muted) / 0.4)",
+                      border: `1px solid ${isHovered ? `hsl(${activeCat.accent} / 0.22)` : "hsl(var(--border) / 0.3)"}`,
                     }}
                   >
                     {logo ? (
@@ -271,7 +273,7 @@ const Skills = () => {
                   {isHovered && (
                     <div
                       className="absolute left-0 top-3 bottom-3 w-[2px] rounded-full"
-                      style={{ background: `hsl(${activeCat.accent})`, animation: "fade-in 0.3s ease-out" }}
+                      style={{ background: `hsl(${activeCat.accent})` }}
                     />
                   )}
                 </div>
@@ -283,25 +285,23 @@ const Skills = () => {
 
       <div className="max-w-6xl mx-auto">
         <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="stat-item p-8 md:p-10 text-center rounded-2xl group hover:scale-[1.03] transition-all duration-500"
-              style={{
-                background: "hsl(var(--muted) / 0.25)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                border: "1px solid hsl(var(--border) / 0.5)",
-                boxShadow: "0 4px 24px hsl(var(--foreground) / 0.04), inset 0 1px 0 hsl(var(--background) / 0.5)",
-              }}
-            >
-              <div className="text-2xl mb-3 opacity-60 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500">
-                {stat.icon}
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={stat.label}
+                className="stat-item glass-panel p-8 md:p-10 text-center rounded-2xl group hover:scale-[1.03] transition-all duration-500"
+              >
+                <div className="mb-3 flex justify-center opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                    <Icon size={18} className="text-primary" />
+                  </div>
+                </div>
+                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2 font-mono">{stat.value}</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{stat.label}</div>
               </div>
-              <div className="text-3xl md:text-4xl font-bold text-gradient mb-2 font-mono">{stat.value}</div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{stat.label}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

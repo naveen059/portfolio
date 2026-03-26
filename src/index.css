@@ -87,6 +87,14 @@
   .section-dark .text-muted-foreground {
     color: hsl(var(--dark-muted));
   }
+
+  .section-dark .glass-card {
+    background:
+      linear-gradient(180deg, hsl(228 22% 11% / 0.84), hsl(228 22% 9% / 0.78)),
+      radial-gradient(circle at 12% 10%, hsl(var(--primary) / 0.13), transparent 38%);
+    border-color: hsl(228 14% 22% / 0.75);
+    box-shadow: 0 20px 52px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
 }
 
 @layer utilities {
@@ -117,6 +125,11 @@
     background: linear-gradient(90deg, transparent, hsl(var(--border) / 0.8), transparent);
   }
 
+  .art-blend {
+    mix-blend-mode: screen;
+    filter: saturate(1.05);
+  }
+
   .marquee-track {
     display: flex;
     animation: marquee 35s linear infinite;
@@ -141,6 +154,27 @@
     -webkit-backdrop-filter: blur(18px);
     border: 1px solid hsl(var(--border) / 0.5);
     box-shadow: 0 18px 50px hsl(var(--foreground) / 0.05), inset 0 1px 0 hsl(var(--background) / 0.65);
+  }
+
+  .glass-card {
+    background:
+      linear-gradient(180deg, hsl(var(--background) / 0.74), hsl(var(--background) / 0.58)),
+      radial-gradient(circle at 15% 10%, hsl(var(--primary) / 0.14), transparent 36%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--border) / 0.52);
+    box-shadow: 0 16px 46px hsl(var(--foreground) / 0.06), inset 0 1px 0 hsl(var(--background) / 0.68);
+  }
+
+  .ambient-grid {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.16) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.16) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  .glow-pulse {
+    animation: glow-pulse 2.8s ease-in-out infinite;
   }
 
   .dark-panel {
@@ -194,6 +228,11 @@
 @keyframes soft-float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 hsl(var(--primary) / 0.25); }
+  50% { box-shadow: 0 0 28px hsl(var(--primary) / 0.42); }
 }
 
 @media (prefers-reduced-motion: reduce) {

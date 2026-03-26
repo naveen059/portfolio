@@ -23,6 +23,7 @@ const projects = [
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
     category: "Creative Automation",
     repoUrl: "https://github.com/naveen059/nano-banana-vision",
+    demoUrl: "",
   },
   {
     title: "AI-Based Attendance Monitoring System",
@@ -36,6 +37,7 @@ const projects = [
     image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&h=400&fit=crop",
     category: "AI / Automation",
     repoUrl: "https://github.com/naveen059/attandance-server",
+    demoUrl: "",
   },
   {
     title: "TrustNGO",
@@ -49,6 +51,7 @@ const projects = [
     image: "https://images.unsplash.com/photo-1573164713712-03790a178651?w=600&h=400&fit=crop",
     category: "Full-Stack App",
     repoUrl: "https://github.com/naveen059/TrustNGo/",
+    demoUrl: "",
   },
   {
     title: "Healthcare Data Management System",
@@ -62,6 +65,7 @@ const projects = [
     image: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&h=400&fit=crop",
     category: "Backend Engineering",
     repoUrl: "https://github.com/naveen059/",
+    demoUrl: "",
   },
 ];
 
@@ -69,6 +73,27 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const IconComp = project.icon;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const rotateY = (x - 0.5) * 6;
+    const rotateX = (0.5 - y) * 6;
+    gsap.to(cardRef.current, {
+      rotateX,
+      rotateY,
+      transformPerspective: 1100,
+      duration: 0.45,
+      ease: "power2.out",
+    });
+  };
+
+  const resetTilt = () => {
+    if (!cardRef.current) return;
+    gsap.to(cardRef.current, { rotateX: 0, rotateY: 0, duration: 0.55, ease: "power3.out" });
+  };
 
   return (
     <div
@@ -89,7 +114,11 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
         transform: isHovered ? "translateY(-8px) scale(1.01)" : "translateY(0) scale(1)",
       }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        resetTilt();
+      }}
     >
       <div className="relative h-52 md:h-60 overflow-hidden">
         <img
@@ -137,6 +166,20 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
           {project.number}
         </span>
 
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-[linear-gradient(180deg,transparent,hsl(228_22%_8%/0.75))] pointer-events-none" />
+        <div className="absolute left-4 bottom-3 flex items-center gap-2 pointer-events-none">
+          <span className="font-mono text-[9px] uppercase tracking-widest text-white/60">Impact</span>
+          <div className="w-24 h-1 rounded-full bg-white/15 overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: isHovered ? "100%" : "65%",
+                background: `linear-gradient(90deg, hsl(${project.accentColor}), hsl(${project.accentColor} / 0.55))`,
+              }}
+            />
+          </div>
+        </div>
+
         <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-500">
           <Magnetic strength={0.3}>
             <a
@@ -156,7 +199,7 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
           </Magnetic>
           <Magnetic strength={0.3}>
             <a
-              href={project.repoUrl}
+              href={project.demoUrl || project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 rounded-xl flex items-center justify-center transition-all active:scale-95 hover:scale-110"
@@ -166,6 +209,7 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
                 border: `1px solid hsl(${project.accentColor} / 0.4)`,
                 color: "white",
               }}
+              title={project.demoUrl ? "Open live project" : "Open repository"}
             >
               <ExternalLink size={14} />
             </a>
@@ -174,6 +218,9 @@ const ProjectCard = ({ project }: { project: (typeof projects)[0] }) => {
       </div>
 
       <div className="p-6 md:p-8 relative z-10">
+        <div className="absolute top-3 right-3 w-9 h-9 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm flex items-center justify-center">
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: `hsl(${project.accentColor})` }} />
+        </div>
         <div className="flex items-center gap-2 mb-2">
           <div
             className="w-2 h-2 rounded-full transition-all duration-500"
@@ -263,6 +310,8 @@ const Projects = () => {
       <div className="absolute bottom-16 left-8 hidden lg:block opacity-40">
         <VectorDecoration variant="wave" />
       </div>
+      <div className="absolute -top-28 left-1/2 -translate-x-1/2 w-[32rem] h-[32rem] rounded-full bg-[radial-gradient(circle,hsl(158_64%_48%/0.14),transparent_62%)] blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 right-8 w-72 h-72 rounded-full bg-[radial-gradient(circle,hsl(35_85%_55%/0.12),transparent_62%)] blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative">
         <GSAPReveal>
@@ -279,6 +328,13 @@ const Projects = () => {
           tag="h2"
           className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-20"
         />
+
+        <GSAPReveal delay={0.2}>
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mb-12">
+            A curated mix of backend systems, automation pipelines, and full-stack products shipped with a focus on
+            measurable impact, reliability, and user experience.
+          </p>
+        </GSAPReveal>
 
         <div className="grid md:grid-cols-2 gap-6" style={{ perspective: "1200px" }}>
           {projects.map((project) => (
