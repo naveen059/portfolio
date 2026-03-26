@@ -1,18 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  ArrowUpRight,
-  Award,
-  CheckCircle2,
-  GraduationCap,
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-  Sparkles,
-  XCircle,
-} from "lucide-react";
+import { ArrowUpRight, Award, CheckCircle2, GraduationCap, Mail, MapPin, Phone, Send, Sparkles, XCircle } from "lucide-react";
 import GSAPReveal from "./GSAPReveal";
 import TextReveal from "./TextReveal";
 import VectorDecoration from "./VectorDecoration";
@@ -32,9 +21,10 @@ const Contact = () => {
   const illustrationRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!formRef.current) return;
+    if (!formRef.current || !illustrationRef.current) return;
+
     const fields = formRef.current.querySelectorAll(".form-field");
-    gsap.fromTo(
+    const formTween = gsap.fromTo(
       fields,
       { opacity: 0, y: 30, filter: "blur(4px)" },
       {
@@ -48,25 +38,80 @@ const Contact = () => {
       }
     );
 
-    if (illustrationRef.current) {
-      const paths = illustrationRef.current.querySelectorAll(".envelope-line");
-      paths.forEach((path, i) => {
-        gsap.fromTo(
-          path,
-          { strokeDashoffset: 220, opacity: 0 },
-          {
-            strokeDashoffset: 0,
-            opacity: 1,
-            duration: 1.2,
-            delay: 0.3 + i * 0.12,
-            ease: "power2.out",
-            scrollTrigger: { trigger: illustrationRef.current, start: "top 85%", once: true },
-          }
-        );
-      });
-    }
+    const envelopeTimeline = gsap.timeline({
+      scrollTrigger: { trigger: illustrationRef.current, start: "top 85%", once: true },
+    });
 
-    return () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    const envelopeBody = illustrationRef.current.querySelector(".envelope-body");
+    const envelopeFlap = illustrationRef.current.querySelector(".envelope-flap");
+    const envelopeLip = illustrationRef.current.querySelector(".envelope-lip");
+    const envelopeLines = illustrationRef.current.querySelectorAll(".envelope-detail");
+    const letter = illustrationRef.current.querySelector(".envelope-letter");
+
+    envelopeTimeline.fromTo(
+      envelopeBody,
+      { strokeDashoffset: 700, opacity: 0 },
+      { strokeDashoffset: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
+    );
+    envelopeTimeline.fromTo(
+      envelopeLines,
+      { strokeDashoffset: 220, opacity: 0 },
+      { strokeDashoffset: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: "power2.out" },
+      "-=0.2"
+    );
+    envelopeTimeline.fromTo(
+      envelopeLip,
+      { strokeDashoffset: 220, opacity: 0 },
+      { strokeDashoffset: 0, opacity: 1, duration: 0.35, ease: "power2.out" },
+      "-=0.25"
+    );
+
+    envelopeTimeline.fromTo(
+      envelopeFlap,
+      { attr: { d: "M110 122 L210 175 L310 122" } },
+      {
+        attr: { d: "M110 122 L210 86 L310 122" },
+        duration: 0.55,
+        ease: "power3.out",
+      },
+      "+=0.2"
+    );
+    envelopeTimeline.to(
+      envelopeLip,
+      {
+        y: -10,
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.out",
+      },
+      "<"
+    );
+
+    envelopeTimeline.fromTo(
+      letter,
+      { y: 16, opacity: 0, scale: 0.96 },
+      {
+        y: -40,
+        opacity: 1,
+        scale: 1,
+        duration: 0.75,
+        ease: "back.out(1.5)",
+      },
+      "-=0.2"
+    );
+    envelopeTimeline.to(letter, { y: -34, duration: 0.35, ease: "power2.out" });
+    envelopeTimeline.to(
+      letter,
+      { y: -40, duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut" },
+      "-=0.05"
+    );
+
+    return () => {
+      formTween.scrollTrigger?.kill();
+      formTween.kill();
+      envelopeTimeline.scrollTrigger?.kill();
+      envelopeTimeline.kill();
+    };
   }, []);
 
   const openMailClientFallback = () => {
@@ -104,14 +149,12 @@ const Contact = () => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }
+      if (!response.ok) throw new Error("Request failed");
 
       setStatus("success");
       setFeedback("Message sent successfully. I will get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
+    } catch {
       setStatus("error");
       setFeedback("Unable to send right now. Opening your email app as fallback.");
       openMailClientFallback();
@@ -124,7 +167,7 @@ const Contact = () => {
     } text-foreground text-sm py-3 placeholder:text-muted-foreground/40 focus:outline-none transition-colors duration-300`;
 
   return (
-    <section id="contact" className="section-padding relative overflow-hidden">
+    <section id="contact" className="relative overflow-hidden px-6 md:px-10 pt-24 md:pt-32 pb-16 md:pb-20">
       <div className="absolute top-20 right-10 hidden md:block">
         <VectorDecoration variant="cross" />
       </div>
@@ -156,71 +199,85 @@ const Contact = () => {
             </GSAPReveal>
 
             <GSAPReveal delay={0.2}>
-              <div className="rounded-3xl border border-border/60 bg-gradient-to-br from-card/80 to-secondary/40 p-5 mb-8">
+              <div className="rounded-3xl border border-border/60 bg-gradient-to-br from-card/80 to-secondary/40 p-6 mb-8 relative overflow-hidden">
                 <svg
                   ref={illustrationRef}
                   width="100%"
-                  height="170"
-                  viewBox="0 0 360 170"
+                  height="220"
+                  viewBox="0 0 420 240"
                   fill="none"
-                  className="text-primary/40"
+                  className="text-primary/50 relative z-10"
                 >
-                  <rect
-                    x="24"
-                    y="26"
-                    width="312"
-                    height="118"
-                    rx="14"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="envelope-line"
-                    strokeDasharray="260"
-                  />
+                  <g className="envelope-letter" style={{ transformOrigin: "210px 130px" }}>
+                    <rect
+                      x="150"
+                      y="70"
+                      width="120"
+                      height="90"
+                      rx="8"
+                      fill="hsl(var(--background) / 0.98)"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    />
+                    <line x1="170" y1="95" x2="250" y2="95" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+                    <line x1="170" y1="110" x2="240" y2="110" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+                  </g>
+
                   <path
-                    d="M24 44L180 100L336 44"
+                    d="M110 122V208Q110 220 122 220H298Q310 220 310 208V122"
+                    fill="hsl(var(--card) / 0.7)"
                     stroke="currentColor"
-                    strokeWidth="1.5"
-                    className="envelope-line"
-                    strokeDasharray="260"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="envelope-body"
+                    strokeDasharray="420"
                   />
+                  <line
+                    x1="110"
+                    y1="122"
+                    x2="310"
+                    y2="122"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    className="envelope-lip"
+                    strokeDasharray="220"
+                  />
+
+                  <line
+                    x1="110"
+                    y1="210"
+                    x2="210"
+                    y2="142"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    className="envelope-detail"
+                    strokeDasharray="130"
+                    opacity="0.5"
+                  />
+                  <line
+                    x1="310"
+                    y1="210"
+                    x2="210"
+                    y2="142"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    className="envelope-detail"
+                    strokeDasharray="130"
+                    opacity="0.5"
+                  />
+
                   <path
-                    d="M24 130L126 82"
+                    d="M110 122 L210 175 L310 122"
+                    fill="none"
                     stroke="currentColor"
-                    strokeWidth="1.3"
-                    className="envelope-line"
-                    strokeDasharray="120"
-                  />
-                  <path
-                    d="M336 130L234 82"
-                    stroke="currentColor"
-                    strokeWidth="1.3"
-                    className="envelope-line"
-                    strokeDasharray="120"
-                  />
-                  <rect
-                    x="264"
-                    y="12"
-                    width="76"
-                    height="26"
-                    rx="13"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    className="envelope-line"
-                    strokeDasharray="110"
-                  />
-                  <path
-                    d="M276 25H328"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    className="envelope-line"
-                    strokeDasharray="70"
-                  />
-                  <path
-                    d="M40 122H98"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    className="envelope-line"
-                    strokeDasharray="70"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="envelope-flap"
                   />
                 </svg>
               </div>
@@ -266,75 +323,77 @@ const Contact = () => {
             </GSAPReveal>
           </div>
 
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="space-y-8 rounded-3xl border border-border/60 bg-gradient-to-br from-background/95 via-background/80 to-card/60 p-7 md:p-9 shadow-xl"
-          >
-            <div className="form-field">
-              <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 block">Name</label>
-              <input
-                type="text"
-                placeholder="Recruiter or company"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                onFocus={() => setFocused("name")}
-                onBlur={() => setFocused(null)}
-                className={inputClass("name")}
-              />
-            </div>
-
-            <div className="form-field">
-              <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 block">Email</label>
-              <input
-                type="email"
-                placeholder="work@email.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                onFocus={() => setFocused("email")}
-                onBlur={() => setFocused(null)}
-                className={inputClass("email")}
-              />
-            </div>
-
-            <div className="form-field">
-              <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 block">Message</label>
-              <textarea
-                placeholder="Tell me about the role or project..."
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                onFocus={() => setFocused("message")}
-                onBlur={() => setFocused(null)}
-                className={`${inputClass("message")} resize-none`}
-              />
-            </div>
-
-            {feedback && (
-              <div
-                className={`form-field flex items-start gap-2 rounded-xl px-4 py-3 text-sm ${
-                  status === "success"
-                    ? "bg-primary/10 text-foreground border border-primary/30"
-                    : "bg-destructive/10 text-foreground border border-destructive/30"
-                }`}
-              >
-                {status === "success" ? <CheckCircle2 size={16} className="mt-0.5" /> : <XCircle size={16} className="mt-0.5" />}
-                <span>{feedback}</span>
+          <div>
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="space-y-7 rounded-3xl border border-border/60 bg-gradient-to-br from-background/95 via-background/80 to-card/60 px-7 py-8 md:px-9 md:py-10 shadow-xl"
+            >
+              <div className="form-field">
+                <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 block">Name</label>
+                <input
+                  type="text"
+                  placeholder="Recruiter or company"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onFocus={() => setFocused("name")}
+                  onBlur={() => setFocused(null)}
+                  className={inputClass("name")}
+                />
               </div>
-            )}
 
-            <div className="form-field">
-              <button
-                type="submit"
-                disabled={status === "sending"}
-                className="group flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-full font-medium text-sm hover:shadow-xl hover:shadow-foreground/10 active:scale-[0.97] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                <Send size={14} className="group-hover:-rotate-12 transition-transform duration-300" />
-                {status === "sending" ? "Sending..." : "Start a Conversation"}
-                <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform duration-300" />
-              </button>
-            </div>
-          </form>
+              <div className="form-field">
+                <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 block">Email</label>
+                <input
+                  type="email"
+                  placeholder="work@email.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onFocus={() => setFocused("email")}
+                  onBlur={() => setFocused(null)}
+                  className={inputClass("email")}
+                />
+              </div>
+
+              <div className="form-field">
+                <label className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-2 block">Message</label>
+                <textarea
+                  placeholder="Tell me about the role or project..."
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onFocus={() => setFocused("message")}
+                  onBlur={() => setFocused(null)}
+                  className={`${inputClass("message")} resize-none`}
+                />
+              </div>
+
+              {feedback && (
+                <div
+                  className={`form-field flex items-start gap-2 rounded-xl px-4 py-3 text-sm ${
+                    status === "success"
+                      ? "bg-primary/10 text-foreground border border-primary/30"
+                      : "bg-destructive/10 text-foreground border border-destructive/30"
+                  }`}
+                >
+                  {status === "success" ? <CheckCircle2 size={16} className="mt-0.5 shrink-0" /> : <XCircle size={16} className="mt-0.5 shrink-0" />}
+                  <span>{feedback}</span>
+                </div>
+              )}
+
+              <div className="form-field pt-2">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="group w-full flex items-center justify-center gap-3 bg-foreground text-background px-8 py-4 rounded-full font-medium text-sm hover:shadow-xl hover:shadow-foreground/10 active:scale-[0.97] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  <Send size={14} className="group-hover:-rotate-12 transition-transform duration-300" />
+                  {status === "sending" ? "Sending..." : "Start a Conversation"}
+                  <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform duration-300" />
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>

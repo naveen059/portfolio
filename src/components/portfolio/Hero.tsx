@@ -160,14 +160,12 @@ const Hero = () => {
               <div className="absolute -inset-6 rounded-[2rem] border border-primary/8 hidden md:block" />
               <div className="absolute inset-6 -z-10 hidden md:block rounded-[2rem] border border-dashed border-primary/15" />
 
-              <div className="w-64 h-72 md:w-80 md:h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-card to-secondary relative shadow-2xl">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(200_100%_70%/0.22),transparent_28%),radial-gradient(circle_at_80%_18%,hsl(340_100%_70%/0.2),transparent_26%),radial-gradient(circle_at_52%_86%,hsl(158_64%_40%/0.14),transparent_28%)]" />
-                <div className="absolute inset-0 opacity-30 bg-[linear-gradient(135deg,transparent_0%,transparent_48%,hsl(0_0%_100%/0.08)_49%,transparent_50%,transparent_100%)] bg-[length:24px_24px]" />
+              <div className="w-64 h-72 md:w-80 md:h-96 rounded-2xl overflow-hidden bg-transparent relative shadow-2xl">
                 {hasProfileImage ? (
                   <img
                     src="/profile.png"
                     alt="Naveen K M"
-                    className="w-full h-full object-cover relative z-10"
+                    className="w-full h-full object-contain object-center relative z-10"
                     onError={() => setHasProfileImage(false)}
                   />
                 ) : (
@@ -178,10 +176,6 @@ const Hero = () => {
                   </div>
                 )}
 
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_4px,hsl(158_64%_40%/0.02)_4px,hsl(158_64%_40%/0.02)_5px)]" />
-                </div>
-                <div className="absolute inset-0 z-20 pointer-events-none bg-[linear-gradient(180deg,transparent_0%,transparent_58%,hsl(228_22%_8%/0.25)_100%)]" />
               </div>
 
               <div className="absolute -bottom-4 -left-4 md:-left-8 bg-background border border-border rounded-xl px-4 py-3 shadow-lg">
