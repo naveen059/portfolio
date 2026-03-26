@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import GSAPReveal from "./GSAPReveal";
 import TextReveal from "./TextReveal";
-import Magnetic from "./Magnetic";
 import VectorDecoration from "./VectorDecoration";
 import { AnimatedHexagon } from "./FloatingElements";
 
@@ -325,17 +324,15 @@ const Contact = () => {
             )}
 
             <div className="form-field">
-              <Magnetic>
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="group flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-full font-medium text-sm hover:shadow-xl hover:shadow-foreground/10 active:scale-[0.97] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  <Send size={14} className="group-hover:-rotate-12 transition-transform duration-300" />
-                  {status === "sending" ? "Sending..." : "Start a Conversation"}
-                  <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform duration-300" />
-                </button>
-              </Magnetic>
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="group flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-full font-medium text-sm hover:shadow-xl hover:shadow-foreground/10 active:scale-[0.97] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <Send size={14} className="group-hover:-rotate-12 transition-transform duration-300" />
+                {status === "sending" ? "Sending..." : "Start a Conversation"}
+                <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform duration-300" />
+              </button>
             </div>
           </form>
         </div>
