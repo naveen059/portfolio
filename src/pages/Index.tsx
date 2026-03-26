@@ -12,15 +12,15 @@ const Index = () => {
       <div className="noise" />
       <Navbar />
       <Hero />
-      {/* Dark section */}
+      <div className="section-divider" />
       <Projects />
-      {/* Light section */}
+      <div className="section-divider" />
       <Skills />
-      {/* Dark section */}
+      <div className="section-divider" />
       <Experience />
-      {/* Light section */}
+      <div className="section-divider" />
       <Contact />
-      {/* Dark footer */}
+      <div className="section-divider" />
       <Footer />
     </div>
   );

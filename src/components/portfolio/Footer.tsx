@@ -1,6 +1,6 @@
 import Magnetic from "./Magnetic";
-import { Github, Linkedin, Mail, ArrowUp, Heart } from "lucide-react";
-import { useRef, useEffect } from "react";
+import { ArrowUp, Github, Heart, Linkedin, Mail } from "lucide-react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -75,8 +75,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-el flex items-center justify-between pt-6 border-t" style={{ borderColor: "hsl(228 14% 12%)" }}>
-          <span className="font-mono text-[10px] uppercase tracking-widest flex items-center gap-1.5" style={{ color: "hsl(228 10% 30%)" }}>
+        <div className="footer-el flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t" style={{ borderColor: "hsl(228 14% 12%)" }}>
+          <span className="font-mono text-[10px] uppercase tracking-widest flex items-center gap-1.5 text-center md:text-left" style={{ color: "hsl(228 10% 30%)" }}>
             © 2026 Naveen K M. Crafted with <Heart size={10} className="text-primary inline" /> care.
           </span>
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, Github, Linkedin, Mail, Download, MapPin, Phone } from "lucide-react";
+import { ArrowDown, Download, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import gsap from "gsap";
 import Magnetic from "./Magnetic";
 import VectorDecoration from "./VectorDecoration";
@@ -82,7 +82,7 @@ const Hero = () => {
               </span>
             </div>
 
-            <h1 className="hero-line text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.92] mb-6">
+            <h1 className="hero-line text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.9] mb-6">
               Naveen K M
               <br />
               <span className="text-gradient">Software Developer</span>
@@ -101,7 +101,7 @@ const Hero = () => {
               ].map(({ icon: Icon, text }) => (
                 <div
                   key={text}
-                  className="flex items-center gap-2 border border-border/70 px-4 py-2 rounded-full text-sm text-muted-foreground"
+                  className="glass-panel flex items-center gap-2 border border-border/70 px-4 py-2 rounded-full text-sm text-muted-foreground"
                 >
                   <Icon size={14} className="text-primary" />
                   <span>{text}</span>
@@ -116,7 +116,7 @@ const Hero = () => {
                   className="group flex items-center gap-3 bg-foreground text-background px-7 py-3.5 rounded-full font-medium text-sm hover:shadow-xl hover:shadow-foreground/10 active:scale-[0.97] transition-all duration-300"
                 >
                   View Projects
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  <span className="group-hover:translate-x-1 transition-transform">-&gt;</span>
                 </a>
               </Magnetic>
               <Magnetic>
@@ -125,7 +125,7 @@ const Hero = () => {
                   download="Naveen_K_M_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 border border-border px-6 py-3.5 rounded-full font-medium text-sm text-foreground hover:border-primary/40 active:scale-[0.97] transition-all duration-300"
+                  className="group flex items-center gap-2 border border-border bg-background/70 px-6 py-3.5 rounded-full font-medium text-sm text-foreground hover:border-primary/40 active:scale-[0.97] transition-all duration-300"
                 >
                   <Download size={14} />
                   Download Resume
@@ -144,7 +144,7 @@ const Hero = () => {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hero-social w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 active:scale-95 transition-all duration-300"
+                    className="hero-social w-10 h-10 rounded-full border border-border bg-background/70 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/30 active:scale-95 transition-all duration-300"
                   >
                     <Icon size={16} />
                   </a>
@@ -201,7 +201,7 @@ const Hero = () => {
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hero-line">
           Scroll
         </span>
-        <div className="hero-line">
+        <div className="hero-line rounded-full border border-border/60 bg-background/65 p-1.5">
           <ArrowDown size={14} className="text-muted-foreground animate-bounce" />
         </div>
       </div>

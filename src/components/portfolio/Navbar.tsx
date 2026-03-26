@@ -27,13 +27,16 @@ const Navbar = () => {
     <nav
       ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border/50 py-3" : "py-5"
+        scrolled ? "bg-background/85 backdrop-blur-xl border-b border-border/60 py-3" : "bg-background/35 backdrop-blur-md py-5"
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-10">
         <Magnetic>
-          <a href="#" className="font-bold text-2xl tracking-tighter text-foreground">
+          <a href="#" className="font-bold text-2xl tracking-tighter text-foreground flex items-center gap-2">
             N<span className="text-primary">.</span>KM
+            <span className="hidden md:inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-primary">
+              Available
+            </span>
           </a>
         </Magnetic>
 
@@ -42,7 +45,7 @@ const Navbar = () => {
             <Magnetic key={l.href} strength={0.15}>
               <a
                 href={l.href}
-                className="relative font-mono text-[11px] uppercase tracking-widest text-muted-foreground hover:text-foreground px-4 py-2 transition-colors duration-300 group"
+                className="relative rounded-full font-mono text-[11px] uppercase tracking-widest text-muted-foreground hover:text-foreground px-4 py-2 transition-colors duration-300 group hover:bg-muted/55"
               >
                 <span className="text-primary/50 mr-1">{l.num}</span>
                 {l.label}
@@ -68,7 +71,7 @@ const Navbar = () => {
       </div>
 
       {open && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border px-6 pb-8 pt-2">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border px-6 pb-8 pt-3 rounded-b-2xl shadow-2xl">
           {links.map((l) => (
             <a
               key={l.href}
